@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head><meta charset="UTF-8"><title>Redirigiendo...</title></head>
+  <body>
+    <script>
+      const fragment = window.location.hash;
+      if (fragment) {
+        const query = fragment.substring(1); // remove "#"
+        const redirectTo = "https://datasmart-express-pgpecfnnlxpgnm3tkvwfhi.streamlit.app/?" + query;
+        window.location.replace(redirectTo);
+      } else {
+        document.body.innerHTML = "❌ No se encontró el token en la URL.";
+      }
+    </script>
+  </body>
+</html>
