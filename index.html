@@ -1,24 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Redirigiendo...</title>
-  </head>
-  <body>
-    <script>
-      // Leer los parámetros desde la parte visible de la URL (?token=...&type=recovery)
-      const urlParams = new URLSearchParams(window.location.search);
-      const token = urlParams.get("token");
-      const type = urlParams.get("type");
+<head>
+  <meta charset="UTF-8">
+  <title>Redirigiendo...</title>
+</head>
+<body>
+<script>
+  const hash = window.location.hash.substring(1); // Elimina "#"
+  const params = new URLSearchParams(hash);
+  const token = params.get("access_token");
+  const type = params.get("type");
 
-      if (token && type === "recovery") {
-        // Redirigir a Streamlit con access_token y tipo de recuperación
-        const redirectTo = `https://datasmart-express-pgpecfnnlxpgnm3tkvwfhi.streamlit.app/?access_token=${token}&type=recovery`;
-        window.location.href = redirectTo;
-      } else {
-        document.body.innerHTML = "❌ Token inválido o no detectado.";
-      }
-    </script>
-    <p>Redirigiendo a DataSmart Express...</p>
-  </body>
+  if (token && type === "recovery") {
+    const redirectTo = `https://datasmart-express-pgpecfnnlxpgnm3tkvwfhi.streamlit.app/?access_token=${token}&type=recovery`;
+    window.location.href = redirectTo;
+  } else {
+    document.body.innerHTML = "❌ Token inválido o no detectado.";
+  }
+</script>
+<p>Redirigiendo a DataSmart Express...</p>
+</body>
 </html>
