@@ -6,22 +6,15 @@
   </head>
   <body>
     <script>
-      const fragment = window.location.hash;
-      if (fragment) {
-        const query = fragment.substring(1); // remove "#"
-        const params = new URLSearchParams(query);
-        const token = params.get("access_token");
-        const type = params.get("type") || "recovery";
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get("token");
+      const type = urlParams.get("type");
 
-        // Validar si parece un JWT válido
-        if (token && token.split(".").length === 3) {
-          const redirectTo = "https://datasmart-express-pgpecfnnlxpgnm3tkvwfhi.streamlit.app/?" + query;
-          window.location.replace(redirectTo);
-        } else {
-          document.body.innerHTML = "❌ Token inválido o incompleto.";
-        }
+      if (token && type === "recovery") {
+        const redirectTo = `https://datasmart-express-pgpecfnnlxpgnm3tkvwfhi.streamlit.app/?access_token=${token}&type=recovery`;
+        window.location.href = redirectTo;
       } else {
-        document.body.innerHTML = "❌ No se encontró el token en la URL.";
+        document.body.innerHTML = "❌ Token inválido o incompleto.";
       }
     </script>
     <p>Redirigiendo a DataSmart Express...</p>
