@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Redirigiendo...</title>
   </head>
   <body>
@@ -11,8 +11,9 @@
         const query = fragment.substring(1); // remove "#"
         const params = new URLSearchParams(query);
         const token = params.get("access_token");
+        const type = params.get("type") || "recovery";
 
-        // Validar formato JWT (3 partes separadas por ".")
+        // Validar si parece un JWT válido
         if (token && token.split(".").length === 3) {
           const redirectTo = "https://datasmart-express-pgpecfnnlxpgnm3tkvwfhi.streamlit.app/?" + query;
           window.location.replace(redirectTo);
