@@ -1,16 +1,28 @@
 <!DOCTYPE html>
-<html>
-  <head><meta charset="UTF-8"><title>Redirigiendo...</title></head>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <title>Redirigiendo...</title>
+  </head>
   <body>
     <script>
       const fragment = window.location.hash;
       if (fragment) {
         const query = fragment.substring(1); // remove "#"
-        const redirectTo = "https://datasmart-express-pgpecfnnlxpgnm3tkvwfhi.streamlit.app/?" + query;
-        window.location.replace(redirectTo);
+        const params = new URLSearchParams(query);
+        const token = params.get("access_token");
+
+        // Validar formato JWT (3 partes separadas por ".")
+        if (token && token.split(".").length === 3) {
+          const redirectTo = "https://datasmart-express-pgpecfnnlxpgnm3tkvwfhi.streamlit.app/?" + query;
+          window.location.replace(redirectTo);
+        } else {
+          document.body.innerHTML = "❌ Token inválido o incompleto.";
+        }
       } else {
         document.body.innerHTML = "❌ No se encontró el token en la URL.";
       }
     </script>
+    <p>Redirigiendo a DataSmart Express...</p>
   </body>
 </html>
