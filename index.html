@@ -6,15 +6,17 @@
   </head>
   <body>
     <script>
+      // Leer los parámetros desde la parte visible de la URL (?token=...&type=recovery)
       const urlParams = new URLSearchParams(window.location.search);
       const token = urlParams.get("token");
       const type = urlParams.get("type");
 
       if (token && type === "recovery") {
+        // Redirigir a Streamlit con access_token y tipo de recuperación
         const redirectTo = `https://datasmart-express-pgpecfnnlxpgnm3tkvwfhi.streamlit.app/?access_token=${token}&type=recovery`;
         window.location.href = redirectTo;
       } else {
-        document.body.innerHTML = "❌ Token inválido o incompleto.";
+        document.body.innerHTML = "❌ Token inválido o no detectado.";
       }
     </script>
     <p>Redirigiendo a DataSmart Express...</p>
