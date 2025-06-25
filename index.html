@@ -3,21 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <title>Redirigiendo...</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      text-align: center;
+    }
+    .error {
+      color: red;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+    .ok {
+      color: #333;
+      font-size: 1.1rem;
+    }
+  </style>
 </head>
 <body>
-<script>
-  const hash = window.location.hash.substring(1); // Elimina "#"
-  const params = new URLSearchParams(hash);
-  const token = params.get("access_token");
-  const type = params.get("type");
+  <div id="mensaje" class="ok">Redirigiendo a DataSmart Express...</div>
 
-  if (token && type === "recovery") {
-    const redirectTo = `https://datasmart-express-pgpecfnnlxpgnm3tkvwfhi.streamlit.app/?access_token=${token}&type=recovery`;
-    window.location.href = redirectTo;
-  } else {
-    document.body.innerHTML = "❌ Token inválido o no detectado.";
-  }
-</script>
-<p>Redirigiendo a DataSmart Express...</p>
+  <script>
+    const fragment = window.location.hash.substring(1);
+    const params = new URLSearchParams(fragment);
+    const token = params.get("access_token");
+    const error = params.get("error_code");
+
+    const redirectTo = "https://datasmart-express-pgpecfnnlxpgnm3tkvwfhi.streamlit.app/";
+
+    if (error === "otp_expired") {
+      document.getElementById("mensaje").innerHTML = "❌ <span class='error'>Este enlace ya expiró. Solicita uno nuevo desde la app.</span>";
+    } else if (token) {
+      window.location.replace(`${redirectTo}?access_token=${token}&type=recovery`);
+    } else {
+      document.getElementById("mensaje").innerHTML = "❌ <span class='error'>Token inválido o no detectado.</span><br><br><span class='ok'>Redirigiendo a DataSmart Express...</span>";
+      setTimeout(() => {
+        window.location.replace(redirectTo);
+      }, 3000);
+    }
+  </script>
 </body>
 </html>
