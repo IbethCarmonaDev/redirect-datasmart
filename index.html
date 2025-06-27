@@ -25,16 +25,20 @@
 
   <script>
     const fragment = window.location.hash.substring(1);
-    const params = new URLSearchParams(fragment);
-    const token = params.get("access_token");
-    const error = params.get("error_code");
+    const urlParams = new URLSearchParams(window.location.search); // query params
+    const fragmentParams = new URLSearchParams(fragment);          // fragment params
+
+    const token = fragmentParams.get("access_token");
+    const error = fragmentParams.get("error_code");
+    const type = urlParams.get("type") || "signup";
 
     const redirectTo = "https://datasmart-express-pgpecfnnlxpgnm3tkvwfhi.streamlit.app/";
 
     if (error === "otp_expired") {
       document.getElementById("mensaje").innerHTML = "❌ <span class='error'>Este enlace ya expiró. Solicita uno nuevo desde la app.</span>";
     } else if (token) {
-      window.location.replace(`${redirectTo}?access_token=${token}&type=recovery`);
+      // Redirigir con ambos parámetros
+      window.location.replace(`${redirectTo}?access_token=${token}&type=${type}`);
     } else {
       document.getElementById("mensaje").innerHTML = "❌ <span class='error'>Token inválido o no detectado.</span><br><br><span class='ok'>Redirigiendo a DataSmart Express...</span>";
       setTimeout(() => {
