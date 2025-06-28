@@ -25,12 +25,12 @@
 
   <script>
     const fragment = window.location.hash.substring(1);
-    const urlParams = new URLSearchParams(window.location.search); // query params
-    const fragmentParams = new URLSearchParams(fragment);          // fragment params
+    const urlParams = new URLSearchParams(window.location.search); // parámetros tipo ?clave=valor
+    const fragmentParams = new URLSearchParams(fragment);          // parámetros tipo #access_token=...
 
     const token = fragmentParams.get("access_token");
     const error = fragmentParams.get("error_code");
-    const type = urlParams.get("type") || "signup";
+    const typeParam = fragmentParams.get("type") || urlParams.get("type") || "signup";
 
     const redirectTo = "https://datasmart-express-pgpecfnnlxpgnm3tkvwfhi.streamlit.app/";
 
@@ -38,12 +38,10 @@
       document.getElementById("mensaje").innerHTML = "❌ <span class='error'>Este enlace ya expiró. Solicita uno nuevo desde la app.</span>";
     } else if (token) {
       // Redirigir con ambos parámetros
-      window.location.replace(`${redirectTo}?access_token=${token}&type=${type}`);
+      window.location.replace(`${redirectTo}?access_token=${token}&type=${typeParam}`);
     } else {
-      document.getElementById("mensaje").innerHTML = "❌ <span class='error'>Token inválido o no detectado.</span><br><br><span class='ok'>Redirigiendo a DataSmart Express...</span>";
-      setTimeout(() => {
-        window.location.replace(redirectTo);
-      }, 3000);
+      document.getElementById("mensaje").innerHTML = "❌ <span class='error'>Token inválido o no detectado.</span><br><br><span class='ok'>Redirigiendo a DataSmart Express...</span>`;
+      setTimeout(() => { window.location.replace(redirectTo); }, 3000);
     }
   </script>
 </body>
